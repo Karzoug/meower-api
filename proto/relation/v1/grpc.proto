@@ -1,0 +1,85 @@
+syntax = "proto3";
+
+package relation.v1;
+
+option go_package = "relation/v1";
+
+import "google/protobuf/empty.proto";
+
+/**
+ * RelationService is the service that provides access to user relations
+ * for other services. 
+ * It is assumed that consumers pass the userID 
+ * when making requests on their behalf 
+ * in the context metadata (key: x-user-id).
+ */
+service RelationService {
+    rpc ListFollowings(ListFollowingsRequest) returns (ListFollowingsResponse);
+    rpc ListFollowers(ListFollowersRequest) returns (ListFollowersResponse);
+    rpc CreateRelation(CreateRelationRequest) returns (google.protobuf.Empty);
+    rpc DeleteRelation(DeleteRelationRequest) returns (google.protobuf.Empty);
+}
+
+message ListFollowingsRequest {
+    string parent = 1;
+    // A page token, received from a previous `ListFollowings` call.
+    // Provide this to retrieve the subsequent page.
+    //
+    // When paginating, all other parameters provided to `ListFollowings` must match
+    // the call that provided the page token.
+    string next_page_token = 2;
+    // The maximum number of followings to return. The service may return fewer than 
+    // this value. If unspecified, at most 100 items will be returned.
+    // The -1 value is a special value representing "unlimited".
+    int32 page_size = 3;
+}
+
+message ListFollowingsResponse {
+    repeated User followings = 1;
+    // A token that can be sent as `page_token` to retrieve the next page.
+    // If this field is omitted, there are no subsequent pages.
+    string next_page_token = 2;
+}
+
+message ListFollowersRequest {
+    string parent = 1;
+    // A page token, received from a previous `ListFollowers` call.
+    // Provide this to retrieve the subsequent page.
+    //
+    // When paginating, all other parameters provided to `ListFollowers` must match
+    // the call that provided the page token.
+    string next_page_token = 2;
+    // The maximum number of followers to return. The service may return fewer than 
+    // this value. If unspecified, at most 100 items will be returned.
+    // The -1 value is a special value representing "unlimited".
+    int32 page_size = 3;
+}
+
+message ListFollowersResponse {
+    repeated User followers = 1;
+    // A token that can be sent as `page_token` to retrieve the next page.
+    // If this field is omitted, there are no subsequent pages.
+    string next_page_token = 2;
+}
+
+enum RelationType {
+    RELATION_TYPE_UNSPECIFIED = 0;
+    RELATION_TYPE_FOLLOW = 1;
+    RELATION_TYPE_MUTE = 2;
+}
+
+message CreateRelationRequest {
+    string user_id = 1;
+    RelationType relation_type = 2;
+}
+
+message DeleteRelationRequest {
+    string user_id = 1;
+    RelationType relation_type = 2;
+}
+
+
+message User {
+    string id = 1;
+    bool muted = 2;
+}

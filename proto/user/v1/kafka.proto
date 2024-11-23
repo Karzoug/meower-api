@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package user.v1;
+
+option go_package = "user/v1";
+
+enum ChangeType {
+    CHANGE_TYPE_UNSPECIFIED = 0;
+    CHANGE_TYPE_CREATED = 1;
+    CHANGE_TYPE_DELETED = 2;
+}
+
+message ChangedEvent {
+    // id is unique and sortable user identifier
+    string id = 1;
+    ChangeType change_type = 2;
+}

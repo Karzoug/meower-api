@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package post.v1;
+
+option go_package = "post/v1";
+
+enum ChangeType {
+    CHANGE_TYPE_UNSPECIFIED = 0;
+    CHANGE_TYPE_CREATED = 1;
+    CHANGE_TYPE_DELETED = 2;
+}
+
+message ChangedEvent {
+    // id is unique and sortable user identifier
+    string id = 1;
+    string author_id = 2;
+    ChangeType change_type = 3;
+}

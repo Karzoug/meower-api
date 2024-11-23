@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package timeline.v1;
+
+option go_package = "timeline/v1";
+
+/**
+ * TimelineService is the service that provides access to home timeline
+ * for other services. 
+ * It is assumed that consumers pass the userID 
+ * when making requests on their behalf 
+ * in the context metadata (key: x-user-id).
+ */
+service TimelineService {
+    rpc ListTimeline(ListTimelineRequest) returns (ListTimelineResponse);
+}
+
+message ListTimelineRequest {
+    string parent = 1;
+	oneof by_oneof {
+		string prev_page_token = 2;
+		string next_page_token = 3;
+    }
+    // The maximum number of timeline posts to return. The service may return fewer than 
+    // this value. If unspecified, at most 100 items will be returned.
+    // The maximum value is 100; values above 100 will be coerced to 100.
+    int32 page_size = 4;
+}
+
+message ListTimelineResponse {
+    repeated Post posts = 1;
+	string prev_page_token = 2;
+	string next_page_token = 3;
+}
+
+message Post {
+    string author_id = 1;
+    string post_id = 2;
+    bool is_repost = 3;
+}
