@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package timeline.v1;
+
+option go_package = "timeline/v1";
+
+enum ChangeTaskType {
+    CHANGE_TASK_TYPE_UNSPECIFIED = 0;
+    CHANGE_TASK_TYPE_POST_INSERT = 1;
+    CHANGE_TASK_TYPE_POST_DELETE = 2;
+    CHANGE_TASK_TYPE_USER_DELETE = 3;
+    //
+    CHANGE_TASK_TYPE_USER_SUBSCRIBE = 5;
+    CHANGE_TASK_TYPE_USER_UNSUBSCRIBE = 6;
+}
+
+message ChangeTaskEvent {
+    string target_user_id = 1;
+    string post_id = 2;
+    string user_id = 3;
+    ChangeTaskType change_type = 4;
+}
