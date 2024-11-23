@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package user.v1;
+
+option go_package = "user/v1";
+
+/**
+ * UserService is the service that provides access to users
+ * for other services. 
+ * It is assumed that consumers pass the userID 
+ * when making requests on their behalf 
+ * in the context metadata (key: x-user-id).
+ */
+service UserService {    
+    rpc GetUser(GetUserRequest) returns (User);
+    rpc GetShortProjection(GetShortProjectionRequest) returns (UserShortProjection);
+    rpc BatchGetShortProjections(BatchGetShortProjectionsRequest) returns (BatchGetShortProjectionsResponse);
+}
+
+message GetUserRequest {
+    string id = 1;
+}
+
+message GetShortProjectionRequest {
+    oneof by_oneof {
+        string id = 1;
+        string username = 2;
+    }
+}
+
+message BatchGetShortProjectionsRequest {
+    repeated string ids = 1;
+}
+
+message BatchGetShortProjectionsResponse {
+    repeated UserShortProjection users = 1;
+}
+
+message User {
+    // ID is unique and sortable user identifier.
+    string id = 1;
+    string username = 2;
+    string name = 3;
+    string image_url = 4;
+    string status_text = 5;    
+}
+
+message UserShortProjection {
+    // ID is unique and sortable user identifier.
+    string id = 1;
+    string username = 2;
+    string name = 3;
+    string image_url = 4;
+    string status_text = 5; 
+}

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package relation.v1;
+
+option go_package = "relation/v1";
+
+enum ChangeType {
+    CHANGE_TYPE_UNSPECIFIED = 0;
+    CHANGE_TYPE_FOLLOW = 1;
+    CHANGE_TYPE_UNFOLLOW = 2;
+    CHANGE_TYPE_MUTE = 3;
+    CHANGE_TYPE_UNMUTE = 4;
+}
+
+message ChangedEvent {
+    string source_user_id = 1;
+    string target_user_id = 2;
+    ChangeType change_type = 3;
+}

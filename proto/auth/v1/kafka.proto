@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package auth.v1;
+
+option go_package = "auth/v1";
+
+enum ChangeType {
+    CHANGE_TYPE_UNSPECIFIED = 0;
+    CHANGE_TYPE_REGISTERED = 1;
+    CHANGE_TYPE_DELETED = 2;
+}
+
+message ChangedEvent {
+    string username = 1;
+    ChangeType change_type = 2;
+}
