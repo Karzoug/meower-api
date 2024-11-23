@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package post.v1;
+
+option go_package = "post/v1";
+
+import "google/protobuf/timestamp.proto";
+
+/**
+ * PostService is the service that provides access to posts
+ * for other services. 
+ * It is assumed that consumers pass the userID 
+ * when making requests on their behalf 
+ * in the context metadata (key: x-user).
+ */
+service PostService {
+    rpc GetPosts(GetPostsRequest) returns (GetPostsResponse);
+    rpc ListPosts(ListPostsRequest) returns (ListPostsResponse);
+    rpc ListPostIds(ListPostIdsRequest) returns (ListPostIdsResponse);
+}
+
+message GetPostsRequest {
+    repeated string ids = 1;
+}
+
+message GetPostsResponse {
+    repeated Post posts = 1;
+}
+
+message ListPostsRequest {
+    string author_user_id = 1;
+    PaginationRequest pagination = 2;
+}
+
+message ListPostsResponse {
+    repeated Post posts = 1;
+    PaginationResponse pagination = 2;
+}
+
+message ListPostIdsRequest {
+    repeated string author_user_ids = 1;
+    PaginationRequest pagination = 2;
+}
+
+message ListPostIdsResponse {
+    repeated PostId post_ids = 1;
+    PaginationResponse pagination = 2;
+}
+
+message Post {
+    string id = 1;
+    string text = 2;
+    string author_id = 3;
+    google.protobuf.Timestamp updated_at = 4;
+}
+
+message PostId {
+    string id = 1;
+    string author_id = 2;
+}
+
+message PaginationRequest {
+    string from_token = 1;
+    int64 limit = 2;
+    int64 offset = 3;
+}
+
+message PaginationResponse {
+    string next_token = 1;
+}

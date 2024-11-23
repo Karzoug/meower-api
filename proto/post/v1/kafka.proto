@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package post.v1;
+
+option go_package = "post/v1";
+
+message PostCreatedEvent {
+    string id = 1;
+    string author_id = 2;
+}
+
+message PostDeletedEvent {
+    string id = 1;
+    string author_id = 2;
+}

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package user.v1;
+
+option go_package = "user/v1";
+
+message UserCreatedEvent {
+    string id = 1;
+}
+
+message UserDeletedEvent {
+    string id = 1;
+}

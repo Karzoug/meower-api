@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package relation.v1;
+
+option go_package = "relation/v1";
+
+message FollowEvent {
+    string requested_user_id = 1;
+    string target_user_id = 2;
+}
+
+message UnfollowEvent {
+    string requested_user_id = 1;
+    string target_user_id = 2;
+}
+
+message HideEvent {
+    string requested_user_id = 1;
+    string target_user_id = 2;
+}
+
+message UnhideEvent {
+    string requested_user_id = 1;
+    string target_user_id = 2;
+}
