@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package timeline.v1;
+
+option go_package = "timeline/v1";
+
+message FollowerGotNewPostEvent {
+    string follower_id = 1;
+    string post_id = 2;
+    string author_id = 3;
+}
